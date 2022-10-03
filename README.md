@@ -1,4 +1,4 @@
-# SQLAlchemy Validations
+# SQLAlchemy Validations lab
 
 ## Learning Goals
 

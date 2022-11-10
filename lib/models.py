@@ -14,7 +14,7 @@ class Author(Base):
     updated_at = Column(DateTime(), onupdate=func.now())
 
     def __repr__(self):
-        return f'Author(id={self.id}'
+        return f'Author(id={self.id}, name={self.name})'
 
 class Post(Base):
     __tablename__ = 'posts'
@@ -27,4 +27,4 @@ class Post(Base):
     updated_at = Column(DateTime(), onupdate=func.now())
 
     def __repr__(self):
-        return f'Post(id={self.id}'
+        return f'Post(id={self.id}, title={self.title})'

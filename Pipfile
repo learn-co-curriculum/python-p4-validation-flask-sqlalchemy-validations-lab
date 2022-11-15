@@ -7,8 +7,9 @@ name = "pypi"
 sqlalchemy = "1.4.43"
 alembic = "1.8.1"
 ipdb = "0.13.9"
+pytest = "*"
 
 [dev-packages]
 
 [requires]
-python_version = "3.8.13"
+python_full_version = "3.8.13"

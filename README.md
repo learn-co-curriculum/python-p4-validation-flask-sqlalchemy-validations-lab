@@ -1,15 +1,20 @@
-# SQLAlchemy Validations lab
+# SQLAlchemy Validations Lab
 
 ## Learning Goals
 
-- Write basic validations using SQLAlchemy
-- Write custom validations
+- Define constraints and validations in data processing.
+- Ensure that only acceptable input is sent to the database using validations.
 
 ***
 
 ## Key Vocab
 
-- **Validation**: Validation is an automatic check to ensure that data entered is sensible and feasible.
+- **Constraint**: a rule enforced on the data columns of a table. Ensures that
+  only appropriate data is saved to the database.
+- **Validation**: an automatic check to ensure that data entered
+  is sensible and feasible.
+- **Forms**: A web form (or HTML form) is a place where users enter data or
+  personal information that's then sent to a server for processing.
 
 ***
 
@@ -21,6 +26,8 @@ get set up, run:
 This is a **test-driven lab**. Run `pipenv install` to create your virtual
 environment and `pipenv shell` to enter the virtual environment.
 
+To generate a database using the provided models, from `lib/` run:
+
 ```bash
 $ alembic upgrade head
 ```
@@ -31,21 +38,17 @@ $ alembic upgrade head
 
 Add validations to these models such that...
 
-1. All authors have a name
-2. No two authors have the same name
-3. Author phone numbers are exactly ten digits
-4. All posts have a title
-5. Post content is at least 250 characters long
-6. Post summary is a maximum of 250 characters
-7. Post category is either `Fiction` or `Non-Fiction`. This step requires an
-   `inclusion` validator, which was not outlined in the lesson. You'll need to
-   refer to the [SQLAlchemy guide][SQLAlchemy Constraints] to look up how to use
-   it.
+1. All authors have a name.
+2. No two authors have the same name.
+3. Author phone numbers are exactly ten digits.
+4. All posts have a title.
+5. Post content is at least 250 characters long.
+6. Post summary is a maximum of 250 characters.
+7. Post category is either `Fiction` or `Non-Fiction`.
 
-***
-Then run
-`pytest -x` to run your tests. Use these instructions and `pytest`'s error
-messages to complete your work in the `lib/` folder.
+Then run `pytest -x` to run your tests. Use these instructions and `pytest`'s
+error messages to complete your work in the `lib/` folder.
+
 ***
 
 ## Custom Validations
@@ -59,13 +62,10 @@ title does not contain:
 - "Top [number]"
 - "Guess"
 
-Use the [SQLAlchemy validations][SQLAlchemy validations] style of validator found in the Rails
-documentation.
-
 ***
 
 ## Resources
 
-- [SQLAlchemy Validations][SQLAlchemy validations]
+- [Changing Attribute Behavior - SQLAlchemy][SQLAlchemy Validations]
 
 [SQLAlchemy validations]: https://docs.sqlalchemy.org/en/14/orm/mapped_attributes.html#simple-validators

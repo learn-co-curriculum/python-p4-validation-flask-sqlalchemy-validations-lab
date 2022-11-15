@@ -1,0 +1,15 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+sqlalchemy = "1.4.43"
+alembic = "1.8.1"
+ipdb = "0.13.9"
+pytest = "*"
+
+[dev-packages]
+
+[requires]
+python_full_version = "3.8.13"

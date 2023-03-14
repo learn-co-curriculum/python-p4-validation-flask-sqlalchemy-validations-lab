@@ -1,27 +1,22 @@
-from sqlalchemy import Column, Integer, String, DateTime, func, create_engine
-from sqlalchemy.orm import validates, sessionmaker
-from sqlalchemy.ext.declarative import declarative_base
+from flask_sqlalchemy import SQLAlchemy
+from sqlalchemy.orm import validates
+db = SQLAlchemy()
 
-Base = declarative_base()
-
-engine = create_engine('sqlite:///authors.db')
-session = sessionmaker(bind=engine)()
-
-class Author(Base):
+class Author(db.Model):
     __tablename__ = 'authors'
 
-    id = Column(Integer(), primary_key=True)
-    name= Column(String(), unique=True, nullable=False)
-    phone_number = Column(String())
-    created_at = Column(DateTime(), server_default=func.now())
-    updated_at = Column(DateTime(), onupdate=func.now())
+    id = db.Column(db.Integer, primary_key=True)
+    name= db.Column(db.String, unique=True, nullable=False)
+    phone_number = db.Column(db.String)
+    created_at = db.Column(db.DateTime, server_default=db.func.now())
+    updated_at = db.Column(db.DateTime, onupdate=db.func.now())
 
     def __repr__(self):
         return f'Author(id={self.id}, name={self.name})'
 
     @validates('name')
     def validate_name(self, key, name):
-        names = session.query(Author.name).all()
+        names = db.session.query(Author.name).all()
         if not name:
             raise ValueError("Name field is required.")
         elif name in names:
@@ -34,16 +29,16 @@ class Author(Base):
             raise ValueError("Phone number must be 10 digits.")
         return phone_number
 
-class Post(Base):
+class Post(db.Model):
     __tablename__ = 'posts'
 
-    id = Column(Integer(), primary_key=True)
-    title = Column(String(), nullable=False)
-    content = Column(String())
-    category = Column(String())
-    summary = Column(String())
-    created_at = Column(DateTime(), server_default=func.now())
-    updated_at = Column(DateTime(), onupdate=func.now())
+    id = db.Column(db.Integer, primary_key=True)
+    title = db.Column(db.String, nullable=False)
+    content = db.Column(db.String)
+    category = db.Column(db.String)
+    summary = db.Column(db.String)
+    created_at = db.Column(db.DateTime, server_default=db.func.now())
+    updated_at = db.Column(db.DateTime, onupdate=db.func.now())
 
     @validates('title')
     def validate_title(self, key, title):
@@ -70,5 +65,3 @@ class Post(Base):
 
     def __repr__(self):
         return f'Post(id={self.id}, title={self.title} content={self.content}, summary={self.summary})'
-
-Base.metadata.create_all(engine)

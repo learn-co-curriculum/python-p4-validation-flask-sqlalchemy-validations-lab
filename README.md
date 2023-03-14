@@ -1,4 +1,4 @@
-# SQLAlchemy Validations Lab
+# Flask-SQLAlchemy Validations Lab
 
 ## Learning Goals
 
@@ -26,10 +26,10 @@ get set up, run:
 This is a **test-driven lab**. Run `pipenv install` to create your virtual
 environment and `pipenv shell` to enter the virtual environment.
 
-To generate a database using the provided models, from `lib/` run:
+To generate a database create the migration and , from `server/` run:
 
 ```bash
-$ alembic upgrade head
+$ flask db upgrade
 ```
 
 ***
@@ -47,7 +47,7 @@ Add validations to these models such that...
 7. Post category is either `Fiction` or `Non-Fiction`.
 
 Then run `pytest -x` to run your tests. Use these instructions and `pytest`'s
-error messages to complete your work in the `lib/` folder.
+error messages to complete your work in the `server/` folder.
 
 ***
 

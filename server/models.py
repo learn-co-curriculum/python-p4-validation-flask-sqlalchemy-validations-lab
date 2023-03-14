@@ -42,7 +42,7 @@ class Post(db.Model):
 
     @validates('title')
     def validate_title(self, key, title):
-        clickbait = ["Won't Believe", "Secret", "Top [number]", "Guess"]
+        clickbait = ["Won't Believe", "Secret", "Top", "Guess"]
         if not any(substring in title for substring in clickbait):
             raise ValueError("No clickbait found")
         return title

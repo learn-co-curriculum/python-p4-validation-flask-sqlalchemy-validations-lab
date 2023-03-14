@@ -11,7 +11,7 @@ class TestAuthor:
 
     def test_requires_name(self):
         '''requires each record to have a name.'''
-        
+
         with app.app_context():
             with pytest.raises(ValueError):
                 author = Author(name = '', phone_number = '1231144321')

@@ -59,7 +59,7 @@ title does not contain:
 
 - "Won't Believe"
 - "Secret"
-- "Top [number]"
+- "Top"
 - "Guess"
 
 ***

@@ -7,6 +7,5 @@ from models import db, Author, Post
 
 if __name__ == '__main__':
     
-    db.init_app(app)
     with app.app_context():
         import ipdb; ipdb.set_trace()

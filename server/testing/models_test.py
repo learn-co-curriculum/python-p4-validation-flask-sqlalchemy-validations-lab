@@ -52,10 +52,12 @@ class TestPost:
     '''Class Post in models.py'''
 
     def test_requires_title(self):
-        '''requires each record to have a title.'''
+        '''requires each post to have a title.'''
 
         with app.app_context():
-            post = Post()
+            content_string = "This is content" * 150
+
+            post = Post(content=content_string, category='Non-Fiction')
             with pytest.raises(IntegrityError):
                 db.session.add(post)
                 db.session.commit()
@@ -63,7 +65,7 @@ class TestPost:
                 db.session.commit()
 
     def test_content_length(self):
-        '''requires each record to have a title.'''
+        '''requires content to be greater than or equal 250 characters long.'''
 
         with app.app_context():
             content_string = "This is content" * 2
@@ -90,14 +92,14 @@ class TestPost:
 
         with app.app_context():
             content_string = "This is content" * 150
-            summary_string = "This is summary" * 150
+            summary_string = "T" * 250
             with pytest.raises(ValueError):
                 post = Post(title='Secret, Why I love programming.', content=content_string, summary= summary_string, category='Non-Fiction')
                 db.session.add(post)
                 db.session.commit()
 
     def test_category(self):
-        '''Incorrect category test.  '''
+        '''Incorrect category test'''
 
         with app.app_context():
             content_string = "This is content" * 150

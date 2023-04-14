@@ -26,9 +26,10 @@ get set up, run:
 This is a **test-driven lab**. Run `pipenv install` to create your virtual
 environment and `pipenv shell` to enter the virtual environment.
 
-To generate a database create the migration and , from `server/` run:
+To generate a database create the migration and from `server/` run:
 
 ```bash
+$ flask  db revision --autogenerate -m "<your comment>"
 $ flask db upgrade
 ```
 

@@ -16,19 +16,19 @@ class Author(db.Model):
 
     @validates('name')
     def validate_name(self, key, name):
-        names = db.session.query(Author.name).all()
         if not name:
             raise ValueError("Name field is required.")
-        elif name in names:
+        author = db.session.query(Author.id).filter_by(name = name).first()
+        if author is not None:
             raise ValueError("Name must be unique.")
         return name
 
     @validates('phone_number')
     def validate_phone_number(self, key, phone_number):
-        if len(phone_number) != 10:
+        if len(phone_number) != 10 or not phone_number.isdigit():
             raise ValueError("Phone number must be 10 digits.")
         return phone_number
-
+    
 class Post(db.Model):
     __tablename__ = 'posts'
 
@@ -50,10 +50,10 @@ class Post(db.Model):
     @validates('content', 'summary')
     def validate_length(self, key, string):
         if( key == 'content'):
-            if len(string) <= 250:
+            if len(string) < 250:
                 raise ValueError("Post content must be greater than or equal 250 characters long.")
         if( key == 'summary'):
-            if len(string) >= 250:
+            if len(string) > 250:
                 raise ValueError("Post summary must be less than or equal to 250 characters long.")
         return string
 
@@ -63,5 +63,6 @@ class Post(db.Model):
             raise ValueError("Category must be Fiction or Non-Fiction.")
         return category
 
+    
     def __repr__(self):
         return f'Post(id={self.id}, title={self.title} content={self.content}, summary={self.summary})'

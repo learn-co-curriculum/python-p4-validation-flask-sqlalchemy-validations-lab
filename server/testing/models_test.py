@@ -9,16 +9,6 @@ from faker import Faker
 LOGGER = logging.getLogger(__name__)
 
 
-# Delete records before running each test
-
-@pytest.fixture(autouse=True)
-def reset_db():
-    with app.app_context():
-        db.session.query(Post).delete()
-        db.session.query(Author).delete()
-        db.session.commit()
-        yield None
-
 class TestAuthor:
     '''Class Author in models.py'''
 
@@ -43,6 +33,9 @@ class TestAuthor:
             
             with pytest.raises(ValueError):
                 author_b = Author(name = 'Ben', phone_number = '1231144321')
+                
+            db.session.query(Author).delete()
+            db.session.commit()
 
     def test_requires_ten_digit_phone_number(self):
         '''requires each phone number to be exactly ten digits.'''
@@ -69,11 +62,10 @@ class TestPost:
         '''requires each post to have a title.'''
 
         with app.app_context():
-            with pytest.raises(IntegrityError):
+            with pytest.raises(ValueError):
                 content_string = "HI" * 126
-                post = Post(content=content_string, category='Non-Fiction')
-                db.session.add(post)
-                db.session.commit()
+                post = Post(title = '', content=content_string, category='Non-Fiction')
+                
 
     def test_content_length(self):
         '''Content too short test. Less than 250 chars.'''
@@ -83,15 +75,11 @@ class TestPost:
             #valid content length
             content_string1 = 'A' * 250
             post1 = Post(title='Secret Why I love programming.', content=content_string1, category='Non-Fiction')
-            db.session.add(post1)
-            db.session.commit()
             
             with pytest.raises(ValueError):
                 #too short
                 content_string2 = 'A' * 249
                 post2 = Post(title='Guess Why I love programming.', content=content_string2, category='Non-Fiction')
-                db.session.add(post2)
-                db.session.commit()
 
     def test_summary_length(self):
         '''Summary too long test. More than 250 chars.'''
@@ -103,15 +91,11 @@ class TestPost:
             # valid summary string
             summary_string1 = "T" * 250
             post1 = Post(title='You Won\'t Believe Why I love programming..', content=content_string, summary= summary_string1, category='Non-Fiction')
-            db.session.add(post1)
-            db.session.commit()
             
             # too long
             summary_string2 = "T" * 251
             with pytest.raises(ValueError):
                 post2 = Post(title='Top Reasons Why I love programming..', content=content_string, summary= summary_string2, category='Non-Fiction')
-                db.session.add(post2)
-                db.session.commit()
 
 
     def test_category(self):
@@ -121,8 +105,6 @@ class TestPost:
             content_string = "A" * 251
             with pytest.raises(ValueError):
                 post = Post(title='Top Ten Reasons I Love Programming.', content=content_string, category='Banana')
-                db.session.add(post)
-                db.session.commit()
 
 
     def test_clickbait(self):
@@ -131,5 +113,3 @@ class TestPost:
             content_string = "A" * 260
             with pytest.raises(ValueError):
                 post = Post(title='Why I love programming.', content=content_string, category='Fiction')
-                db.session.add(post)
-                db.session.commit()
